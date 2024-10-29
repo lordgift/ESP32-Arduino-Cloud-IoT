@@ -6,12 +6,14 @@
 }
 #endif
 
+#define LED_BUILTIN 2 // LED light connect to PIN 2 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.println("Hello, ESP32!");
   
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() {
@@ -19,6 +21,7 @@ void loop() {
   delay(1000); 
 
   readBuiltInTemperature();
+  toggleLED();
 }
 
 void readBuiltInTemperature() {
@@ -34,4 +37,9 @@ float fahrenheitToCelsius(uint8_t fahrenheit) {
     float celsius;
     celsius = (fahrenheit - 32) / 1.8;
     return celsius;
+}
+
+void toggleLED() {
+  bool isOn = !digitalRead(LED_BUILTIN);
+  digitalWrite(LED_BUILTIN, isOn ? HIGH : LOW);
 }
