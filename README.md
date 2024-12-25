@@ -15,4 +15,4 @@ This is starter of IoT project focusing on ESP32 module which bundled with Wifi,
 - Google Home (optional) 
 
 
-Very easy to make it online with [Arduino Cloud](https://app.arduino.cc/). Especially if you develop on it's sketch. After you created cloud variables, then it'll ready to use as source code in (thingProperties.h)[thingProperties.h].
+Very easy to make it online with [Arduino Cloud](https://app.arduino.cc/). Especially if you develop on it's sketch. After you created cloud variables, then it'll ready to use as source code in [thingProperties.h](thingProperties.h).
