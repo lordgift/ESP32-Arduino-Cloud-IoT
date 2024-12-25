@@ -51,7 +51,11 @@ void setup() {
 
 void loop() {
   ArduinoCloud.update();
-  
+  readingSensors();
+  delay(1000);
+}
+
+void readingSensors() {
   moduleTemp = readESP32Celsius();
 
   // u_int rainMeter = analogRead(PIN_D15_RAIN_METER);
@@ -65,8 +69,6 @@ void loop() {
   isRaining = !isSunny;
 
   digitalWrite(LED_BUILTIN, isRaining ? HIGH : LOW);
-  
-  delay(1000);
 }
 
 void toggleLED() {
