@@ -56,7 +56,13 @@ void loop() {
 }
 
 void readingSensors() {
-  moduleTemp = readESP32Celsius();
+
+  /* ------ BUILD-IN TEMP ------ */
+  builtInTemp = readESP32Celsius();
+  Serial.print(F("ESP32 on-board output   >> Temp: "));
+  Serial.print(builtInTemp);
+  Serial.println(F("°C"));
+  /* ------ BUILD-IN TEMP ------ */
 
   // u_int rainMeter = analogRead(PIN_D15_RAIN_METER);
 
