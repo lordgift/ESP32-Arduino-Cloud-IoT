@@ -19,8 +19,9 @@
 #include "temperature.h"
 
 #define LED_BUILTIN 2
-#define PIN_D15_RAIN_METER 15 
+
 // ESP32 DEV KIT V1: D15=GPIO15
+#define PIN_RAIN_METER  16
 
 void setup() {
   // Initialize serial and wait for port to open:
@@ -64,17 +65,21 @@ void readingSensors() {
   Serial.println(F("°C"));
   /* ------ BUILD-IN TEMP ------ */
 
+
+  /* ------ RAINDROPS SENSOR ------ */
   // u_int rainMeter = analogRead(PIN_D15_RAIN_METER);
 
   // rainingPercentage = analogRead(PIN_D15_RAIN_METER);
   
   // rainMeter = map(rainMeter, 0, 1023, 0, 100);
   // bool isSunny = (rainMeter < 20);
-
-  bool isSunny = digitalRead(PIN_D15_RAIN_METER);
+  bool isSunny = digitalRead(PIN_RAIN_METER);
   isRaining = !isSunny;
 
   digitalWrite(LED_BUILTIN, isRaining ? HIGH : LOW);
+  /* ------ RAINDROPS SENSOR ------ */
+
+  
 }
 
 void toggleLED() {
