@@ -22,6 +22,15 @@
 
 // ESP32 DEV KIT V1: D15=GPIO15
 #define PIN_RAIN_METER  16
+#define PIN_DHT         14
+
+//#define DHTTYPE DHT11   // DHT 11
+#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)
+DHT dht(PIN_DHT, DHTTYPE);
+
+#define MS_TO_S_FACTOR          1000UL
+#define LOOP_DELAY_IN_SEC       1
 
 void setup() {
   // Initialize serial and wait for port to open:
@@ -46,14 +55,17 @@ void setup() {
   ArduinoCloud.printDebugInfo();
 
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(PIN_D15_RAIN_METER, INPUT);
+  pinMode(PIN_RAIN_METER, INPUT);
   
+  dht.begin();
+  Serial.print(F("Setting up..."));
+  Serial.println();
 }
 
 void loop() {
   ArduinoCloud.update();
   readingSensors();
-  delay(1000);
+  delay(LOOP_DELAY_IN_SEC * MS_TO_S_FACTOR);
 }
 
 void readingSensors() {
@@ -64,6 +76,28 @@ void readingSensors() {
   Serial.print(builtInTemp);
   Serial.println(F("°C"));
   /* ------ BUILD-IN TEMP ------ */
+
+
+
+  /* ------ DHT22 ------ */
+  // delay(2000); // DHT11 is very slow sensor
+
+  float humidity = dht.readHumidity();
+  float celcius = dht.readTemperature();
+
+  if (isnan(humidity) || isnan(celcius)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+  }
+
+  moduleTemp = celcius;  
+  moduleHumidity = humidity;  
+  Serial.print(F("DHT22 output            >> Temp: "));
+  Serial.print(celcius);
+  Serial.print(F("°C, Humidity: "));
+  Serial.print(humidity);
+  Serial.println(F("%"));
+  /* ------ DHT22 ------ */
+
 
 
   /* ------ RAINDROPS SENSOR ------ */
@@ -85,13 +119,5 @@ void readingSensors() {
   Serial.print(F("Raindrops output        >> "));
   Serial.println(isRaining);
   /* ------ RAINDROPS SENSOR ------ */
-
   
-
-  
-}
-
-void toggleLED() {
-  bool isOn = !digitalRead(LED_BUILTIN);
-  digitalWrite(LED_BUILTIN, isOn ? HIGH : LOW);
 }
