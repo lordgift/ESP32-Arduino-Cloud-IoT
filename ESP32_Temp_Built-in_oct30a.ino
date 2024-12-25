@@ -76,8 +76,17 @@ void readingSensors() {
   bool isSunny = digitalRead(PIN_RAIN_METER);
   isRaining = !isSunny;
 
+  // isRaining can be no value.
+  if (isRaining) {
+    Serial.println(F("Failed to read from Raindrops sensor!"));
+  }
+
   digitalWrite(LED_BUILTIN, isRaining ? HIGH : LOW);
+  Serial.print(F("Raindrops output        >> "));
+  Serial.println(isRaining);
   /* ------ RAINDROPS SENSOR ------ */
+
+  
 
   
 }
