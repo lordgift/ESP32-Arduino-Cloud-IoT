@@ -51,9 +51,8 @@ void setup() {
 
 void loop() {
   ArduinoCloud.update();
-  // Your code here 
   
-  moduleTemp = readCelsius();
+  moduleTemp = readESP32Celsius();
 
   // u_int rainMeter = analogRead(PIN_D15_RAIN_METER);
 
